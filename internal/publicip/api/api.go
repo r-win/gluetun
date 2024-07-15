@@ -21,6 +21,7 @@ type Provider string
 const (
 	IPInfo      Provider = "ipinfo"
 	IP2Location Provider = "ip2location"
+	IPApi	    Provider = "ipapi"
 )
 
 func New(provider Provider, client *http.Client, token string) ( //nolint:ireturn
@@ -30,6 +31,8 @@ func New(provider Provider, client *http.Client, token string) ( //nolint:iretur
 		return newIPInfo(client, token), nil
 	case IP2Location:
 		return newIP2Location(client, token), nil
+	case IPApi:
+		return newIPApi(client, token), nil
 	default:
 		panic("provider not valid: " + provider)
 	}
@@ -45,8 +48,10 @@ func ParseProvider(s string) (provider Provider, err error) {
 		return IPInfo, nil
 	case "ip2location":
 		return IP2Location, nil
+	case "ipapi":
+		return IPApi, nil
 	default:
-		return "", fmt.Errorf(`%w: %q can only be "ipinfo" or "ip2location"`,
+		return "", fmt.Errorf(`%w: %q can only be "ipinfo", "ip2location" or "ipapi"`,
 			ErrProviderNotValid, s)
 	}
 }
