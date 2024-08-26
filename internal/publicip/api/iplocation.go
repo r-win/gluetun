@@ -121,6 +121,7 @@ func (i *ipLocation) FetchInfo(ctx context.Context, logger types.Logger, ip neti
 	result = models.PublicIP{
 		IP:           data.IP,
 		Country:      data.CountryName,
+		Region:	      "",
 		Organization: data.Org,
 	}
 	return result, nil
