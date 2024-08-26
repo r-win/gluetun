@@ -13,6 +13,7 @@ import (
 	"github.com/qdm12/gluetun/internal/models"
 	"github.com/qdm12/gluetun/internal/openvpn/extract"
 	"github.com/qdm12/gluetun/internal/provider"
+	"github.com/qdm12/gluetun/internal/publicip/types"
 	"github.com/qdm12/gluetun/internal/storage"
 	"github.com/qdm12/gluetun/internal/updater/resolver"
 	"github.com/qdm12/gosettings/reader"
@@ -34,7 +35,7 @@ type ParallelResolver interface {
 }
 
 type IPFetcher interface {
-	FetchInfo(ctx context.Context, ip netip.Addr) (data models.PublicIP, err error)
+	FetchInfo(ctx context.Context, logger types.Logger, ip netip.Addr) (data models.PublicIP, err error)
 }
 
 type IPv6Checker interface {

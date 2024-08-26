@@ -10,6 +10,7 @@ import (
 
 	"github.com/qdm12/gluetun/internal/constants"
 	"github.com/qdm12/gluetun/internal/models"
+	"github.com/qdm12/gluetun/internal/publicip/types"
 )
 
 type ipInfo struct {
@@ -27,7 +28,7 @@ func newIPInfo(client *http.Client, token string) *ipInfo {
 // FetchInfo obtains information on the ip address provided
 // using the ipinfo.io API. If the ip is the zero value, the public IP address
 // of the machine is used as the IP.
-func (i *ipInfo) FetchInfo(ctx context.Context, ip netip.Addr) (
+func (i *ipInfo) FetchInfo(ctx context.Context, logger types.Logger, ip netip.Addr) (
 	result models.PublicIP, err error) {
 	url := "https://ipinfo.io/"
 	switch {

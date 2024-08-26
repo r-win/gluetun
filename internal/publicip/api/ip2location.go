@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/qdm12/gluetun/internal/models"
+	"github.com/qdm12/gluetun/internal/publicip/types"
 )
 
 type ip2Location struct {
@@ -26,7 +27,7 @@ func newIP2Location(client *http.Client, token string) *ip2Location {
 // FetchInfo obtains information on the ip address provided
 // using the api.ip2location.io API. If the ip is the zero value,
 // the public IP address of the machine is used as the IP.
-func (i *ip2Location) FetchInfo(ctx context.Context, ip netip.Addr) (
+func (i *ip2Location) FetchInfo(ctx context.Context, logger types.Logger, ip netip.Addr) (
 	result models.PublicIP, err error) {
 	url := "https://api.ip2location.io/"
 	if ip.IsValid() {

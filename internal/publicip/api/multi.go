@@ -5,6 +5,7 @@ import (
 	"net/netip"
 
 	"github.com/qdm12/gluetun/internal/models"
+	"github.com/qdm12/gluetun/internal/publicip/types"
 )
 
 // FetchMultiInfo obtains the public IP address information for every IP
@@ -13,7 +14,7 @@ import (
 // If an error is encountered, all the operations are canceled and
 // an error is returned, so the results returned should be considered
 // incomplete in this case.
-func FetchMultiInfo(ctx context.Context, fetcher Fetcher, ips []netip.Addr) (
+func FetchMultiInfo(ctx context.Context, fetcher types.Fetcher, logger types.Logger, ips []netip.Addr) (
 	results []models.PublicIP, err error) {
 	ctx, cancel := context.WithCancel(ctx)
 
@@ -29,7 +30,7 @@ func FetchMultiInfo(ctx context.Context, fetcher Fetcher, ips []netip.Addr) (
 			aResult := asyncResult{
 				index: index,
 			}
-			aResult.result, aResult.err = fetcher.FetchInfo(ctx, ip)
+			aResult.result, aResult.err = fetcher.FetchInfo(ctx, logger, ip)
 			resultsCh <- aResult
 		}(i, ip)
 	}

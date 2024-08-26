@@ -15,7 +15,7 @@ func setLocationInfo(ctx context.Context, fetcher common.IPFetcher, servers []mo
 	for _, server := range servers {
 		ipsToGetInfo = append(ipsToGetInfo, server.IPs...)
 	}
-	ipsInfo, err := api.FetchMultiInfo(ctx, fetcher, ipsToGetInfo)
+	ipsInfo, err := api.FetchMultiInfo(ctx, fetcher, nil, ipsToGetInfo)
 	if err != nil {
 		return err
 	}

@@ -8,6 +8,7 @@ import (
 	"net/netip"
 	"strings"
 
+	"github.com/qdm12/gluetun/internal/publicip/types"
 	"github.com/qdm12/gluetun/internal/constants"
 	"github.com/qdm12/gluetun/internal/models"
 )
@@ -27,7 +28,7 @@ func newIPApi(client *http.Client, token string) *ipApi {
 // FetchInfo obtains information on the ip address provided
 // using the ipapi.co API. If the ip is the zero value, the public IP address
 // of the machine is used as the IP.
-func (i *ipApi) FetchInfo(ctx context.Context, ip netip.Addr) (
+func (i *ipApi) FetchInfo(ctx context.Context, logger types.Logger, ip netip.Addr) (
 	result models.PublicIP, err error) {
 	url := "https://ipapi.co"
 	if ip.IsValid() {

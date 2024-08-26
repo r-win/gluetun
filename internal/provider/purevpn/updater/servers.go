@@ -81,7 +81,7 @@ func (u *Updater) FetchServers(ctx context.Context, minServers int) (
 	for i := range servers {
 		ipsToGetInfo[i] = servers[i].IPs[0]
 	}
-	ipsInfo, err := api.FetchMultiInfo(ctx, u.ipFetcher, ipsToGetInfo)
+	ipsInfo, err := api.FetchMultiInfo(ctx, u.ipFetcher, nil, ipsToGetInfo)
 	if err != nil {
 		return nil, err
 	}

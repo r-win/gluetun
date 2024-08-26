@@ -9,6 +9,7 @@ import (
 
 	"github.com/qdm12/gluetun/internal/configuration/settings"
 	"github.com/qdm12/gluetun/internal/models"
+	"github.com/qdm12/gluetun/internal/publicip/types"
 )
 
 type Loop struct {
@@ -18,8 +19,8 @@ type Loop struct {
 	ipData        models.PublicIP
 	ipDataMutex   sync.RWMutex
 	// Fixed injected objects
-	fetcher Fetcher
-	logger  Logger
+	fetcher types.Fetcher
+	logger  types.Logger
 	// Fixed parameters
 	puid int
 	pgid int
@@ -37,7 +38,7 @@ type Loop struct {
 	timeNow func() time.Time
 }
 
-func NewLoop(fetcher Fetcher, logger Logger,
+func NewLoop(fetcher types.Fetcher, logger types.Logger,
 	settings settings.PublicIP, puid, pgid int) *Loop {
 	return &Loop{
 		settings: settings,
@@ -103,7 +104,7 @@ func (l *Loop) run(runCtx context.Context, runDone chan<- struct{},
 		lastFetch = l.timeNow()
 		timerIsReadyToReset = l.updateTimer(*l.settings.Period, lastFetch, timer, timerIsReadyToReset)
 
-		result, err := l.fetcher.FetchInfo(singleRunCtx, netip.Addr{})
+		result, err := l.fetcher.FetchInfo(singleRunCtx, l.logger, netip.Addr{})
 		if err != nil {
 			err = fmt.Errorf("fetching information: %w", err)
 			if singleRunResult != nil {
